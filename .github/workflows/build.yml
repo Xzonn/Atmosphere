@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: docker://xzonn/atmosphere:0.9.2
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run build
+      run: make
+    - run: ls
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      with:
+        name: Atmosphere
+        path: out/nintendo_nx_arm64_armv8a/release/
