@@ -3,10 +3,10 @@ name: Build
 on:
   push:
     branches:
-      - master
+      - memory
   pull_request:
     branches:
-      - master
+      - memory
 
 jobs:
   build:
