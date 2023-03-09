@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - actions
   pull_request:
     branches:
       - master
@@ -12,8 +13,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: docker://xzonn/atmosphere:0.9.3
+      image: docker://devkitpro/devkita64
     steps:
+    - name: Update dependencies
+      run: |
+        dkp-pacman -Syu --noconfirm switch-dev switch-glm switch-libjpeg-turbo devkitARM devkitarm-rules hactool
+        apt-get update && apt-get install git zip python2 python2.7 python-pip -y
+        rm /usr/bin/python
+        ln -s /usr/bin/python2.7 /usr/bin/python
+        python -m pip install lz4 pycryptodome
     - uses: actions/checkout@v3
     - name: Make it a safe directory
       run: git config --global --add safe.directory '*'
